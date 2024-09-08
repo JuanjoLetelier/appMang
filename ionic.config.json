@@ -1,0 +1,7 @@
+{
+  "name": "AppMangas",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
