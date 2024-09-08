@@ -23,29 +23,71 @@ export class AuthPage implements OnInit {
   }
 
   async submit() {
+    if (this.form.valid){
+      const loading = await this.utilsSvc.loading();
+      await loading.present();
+      
+      
+        this.firebaseSvc.sigIn(this.form.value as User).then(res =>{
+          
+          this.getUserInfo(res.user.uid);
+      
+        }).catch(error =>{
+          console.log(error);
+          
+          this.utilsSvc.presentToast({
+            message: error.message,
+            duration: 2500,
+            color: 'primary',
+            position: 'middle',
+            icon: 'alert-circule-outline'
+          })
 
-    const loading = await this.utilsSvc.loading();
-    await loading.present();
-    
-    if (this.form.valid)
-      this.firebaseSvc.sigIn(this.form.value as User).then(res =>{
-        
-        console.log(res);
-    
-      }).catch(error =>{
-        console.log(error);
-        
-        this.utilsSvc.presentToast({
-          message: error.message,
-          duration: 2500,
-          color: 'primary',
-          position: 'middle',
-          icon: 'alert-circule-outline'
+        }).finally(() => {
+          loading.dismiss();
         })
+    
+    }
+  }  
 
-      }).finally(() => {
-        loading.dismiss();
-      })
+
+  async getUserInfo(uid: string) {
+    if (this.form.valid){  
+
+      const loading = await this.utilsSvc.loading();
+      await loading.present();
+
+      let path = `users/${uid}`;
+
+        this.firebaseSvc.getDocument(path).then((user: User) => {
+          
+          this.utilsSvc.saveInLocalStorage('user', user);
+          this.utilsSvc.routerLink('/main/home');
+          this.form.reset();
+
+          this.utilsSvc.presentToast({
+            message: `Bienvenido de vuelta ${user.name}`,
+            duration: 1500,
+            color: 'primary',
+            position: 'middle',
+            icon: 'person-circule-outline'
+          })
+      
+        }).catch(error =>{
+          console.log(error);
+          
+          this.utilsSvc.presentToast({
+            message: error.message,
+            duration: 2500,
+            color: 'primary',
+            position: 'middle',
+            icon: 'alert-circule-outline'
+          })
+
+        }).finally(() => {
+          loading.dismiss();
+        })
+    }    
   }
 
 }
