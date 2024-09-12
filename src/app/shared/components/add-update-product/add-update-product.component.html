@@ -1,0 +1,54 @@
+<app-header [isModal]="true" title="Agregar Manga"></app-header>
+<ion-content>
+
+    <form [formGroup]="form" class ="ion-padding ion-text-center" (ngSubmit)="submit()" (keypress.enter)="submit()">
+  
+        <!--==NAME==-->
+        <app-custom-input
+        autocomplete="name"
+        [control]="form.controls.name"
+        type="text"
+        label="Nombre"
+        ></app-custom-input> 
+  
+        <div class="validators" *ngIf="form.controls.name.errors && form.controls.name.touched">
+          <div *ngIf="form.controls.name.errors?.['required']">Este campo es requerido</div>
+          <div *ngIf="form.controls.name.errors?.['minlenght']">El nombre debe tener al menos 4 carácteres</div>
+        </div>
+        
+        <!--==CATEGORY==-->
+        <app-custom-input
+        autocomplete="name"
+        [control]="form.controls.category"
+        type="text"
+        label="Categoria"
+        ></app-custom-input> 
+    
+        <div class="validators" *ngIf="form.controls.category.errors && form.controls.category.touched">
+            <div *ngIf="form.controls.category.errors?.['required']">Este campo es requerido</div>
+            <div *ngIf="form.controls.category.errors?.['minlenght']">El nombre debe tener al menos 4 carácteres</div>
+        </div> 
+
+        <!--==TYPOLOGY==-->
+        <app-custom-input
+        autocomplete="name"
+        [control]="form.controls.typology"
+        type="text"
+        label="Tipología"
+        ></app-custom-input> 
+    
+        <div class="validators" *ngIf="form.controls.typology.errors && form.controls.typology.touched">
+            <div *ngIf="form.controls.typology.errors?.['required']">Este campo es requerido</div>
+            <div *ngIf="form.controls.typology.errors?.['minlenght']">El nombre debe tener al menos 4 carácteres</div>
+        </div> 
+
+  
+        <ion-button mode="ios" class="ion-margin" type="submit" [disabled]="form.invalid">
+          Agregar Manga
+          <ion-icon slot="end" name="checkmark-circle-outline"></ion-icon>
+        </ion-button>
+  
+        
+    </form>
+
+</ion-content>
