@@ -21,7 +21,11 @@ export class AddUpdateProductComponent implements OnInit {
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService);
 
-  ngOnInit() {    
+  user = {} as User;
+
+  ngOnInit() {  
+    
+    this.user = this.utilsSvc.getFromLocalStorage('user');
   }
 
 
@@ -34,15 +38,31 @@ export class AddUpdateProductComponent implements OnInit {
 
   async submit() {
     if (this.form.valid) {
+
+      let path = `users/${this.user.uid}/products`
+
       const loading = await this.utilsSvc.loading();
       await loading.present();
 
-      this.firebaseSvc
-        .sigUp(this.form.value as User)
-        .then(async (res) => {
-          await this.firebaseSvc.updateUser(this.form.value.name);
+       // ===== Subir imagen y obtener url =====
+       let dataUrl = this.form.value.image;
+       let imagePath = `${this.user.uid}/${Date.now()}`;
+       let imageUrl = await this.firebaseSvc.uploadImage(imagePath, dataUrl);
+       this.form.controls.image.setValue(imageUrl);
 
-          let uid = res.user.uid;
+       delete this.form.value.id;
+
+      this.firebaseSvc.addDocument( path, this.form.value).then(async res => {
+
+        this.utilsSvc.dismissModal({ success: true });
+
+        this.utilsSvc.presentToast({
+          message: 'Manga agregado exitosamente',
+          duration: 1500,
+          color: 'success',
+          position: 'middle',
+          icon: 'checkmark-circule-outline',
+        });
 
         })
         .catch((error) => {
