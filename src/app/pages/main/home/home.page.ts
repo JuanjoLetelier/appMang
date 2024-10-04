@@ -50,10 +50,12 @@ export class HomePage implements OnInit {
   }
   //============ Agregar o actualizar Manga
 
-  addUpdateProduct(){
+  addUpdateProduct(product?: Product){
+
     this.utilsSvc.presentModal({
         component: AddUpdateProductComponent,
-        cssClass: 'add-update-modal'
+        cssClass: 'add-update-modal',
+        componentProps:{ product }
       })
   }
 
