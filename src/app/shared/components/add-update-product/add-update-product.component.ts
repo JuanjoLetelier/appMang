@@ -20,6 +20,7 @@ export class AddUpdateProductComponent implements OnInit {
     name: new FormControl('', [Validators.required, Validators.minLength(4)]),
     category: new FormControl('', [Validators.required, Validators.minLength(4)]),
     typology: new FormControl('', [Validators.required, Validators.minLength(4)]),
+    views: new FormControl(null, [Validators.required, Validators.min(0)])
   });
 
   firebaseSvc = inject(FirebaseService);
@@ -30,6 +31,7 @@ export class AddUpdateProductComponent implements OnInit {
   ngOnInit() {  
     
     this.user = this.utilsSvc.getFromLocalStorage('user');
+    if(this.product) this.form.setValue(this.product);
   }
 
 
@@ -47,6 +49,16 @@ export class AddUpdateProductComponent implements OnInit {
     }
 
   }
+// ===== Convierte valores de tipo string a number =====
+  setNumberInputs(){
+
+    let {views} =this.form.controls;
+
+    if(views.value) views.setValue(parseFloat(views.value))
+
+  }
+
+
 // ===== Crear Producto =====
   async createProduct() {
 
@@ -102,10 +114,11 @@ export class AddUpdateProductComponent implements OnInit {
       const loading = await this.utilsSvc.loading();
       await loading.present();
 
-       // ===== Subir imagen y obtener url =====
+       // ===== Si cambió imagen, obtener la nueva y obtener su url =====
+
       if(this.form.value.image !== this.product.image){
         let dataUrl = this.form.value.image;
-        let imagePath = `${this.user.uid}/${Date.now()}`;
+        let imagePath = await this.firebaseSvc.getFilePath(this.product.image);
         let imageUrl = await this.firebaseSvc.uploadImage(imagePath, dataUrl);
         this.form.controls.image.setValue(imageUrl);
       }
@@ -114,12 +127,12 @@ export class AddUpdateProductComponent implements OnInit {
 
        delete this.form.value.id;
 
-      this.firebaseSvc.addDocument( path, this.form.value).then(async res => {
+      this.firebaseSvc.updateDocument( path, this.form.value).then(async res => {
 
         this.utilsSvc.dismissModal({ success: true });
 
         this.utilsSvc.presentToast({
-          message: 'Manga agregado exitosamente',
+          message: 'Manga Actualizado Exitosamente',
           duration: 1500,
           color: 'success',
           position: 'middle',

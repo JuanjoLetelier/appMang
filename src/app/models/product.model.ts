@@ -3,5 +3,6 @@ export interface Product{
         image: string,
         typology: string,
         category: string,
-        id: string
+        id: string,
+        views: number
 }
