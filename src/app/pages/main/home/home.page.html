@@ -1,4 +1,4 @@
-<app-header title="Inicio"></app-header>
+<app-header [showMenu]="true" title="Inicio"></app-header>
 
 <ion-content>
 
@@ -76,12 +76,4 @@
   </ion-fab-button>
   
 </ion-fab>
-
-<ion-fab vertical="bottom" horizontal="start" slot="fixed">
-  <ion-fab-button (click)="signOut()">
-    <ion-icon name="arrow-undo-outline"></ion-icon>
-  </ion-fab-button>
-  
-</ion-fab>
-
 </ion-content>

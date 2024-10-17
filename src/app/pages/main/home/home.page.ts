@@ -12,6 +12,7 @@ import { orderBy } from 'firebase/firestore';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
+  
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService);
 
@@ -41,12 +42,8 @@ export class HomePage implements OnInit {
   //============ Cerrar sesion
   //getViews(){
     //return this.products.reduce((index, product))
-  //}
+  //}  
 
-  //============ Cerrar sesion
-  signOut(){
-    this.firebaseSvc.signOut();
-  }
 
   
   //============ Obtener Productos
