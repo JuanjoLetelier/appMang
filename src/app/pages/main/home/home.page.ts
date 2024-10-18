@@ -5,6 +5,7 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import { AddUpdateProductComponent } from 'src/app/shared/components/add-update-product/add-update-product.component';
 import { orderBy } from 'firebase/firestore';
+import { LanguageService } from 'src/app/services/language.service';
 
 @Component({
   selector: 'app-home',
@@ -16,12 +17,15 @@ export class HomePage implements OnInit {
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService);
 
+  languageSvc = inject(LanguageService);
+  selectedLanguage = '';
+
 
   products: Product[] = [];
   loading: boolean = false;
   
   ngOnInit() {
-
+    this.selectedLanguage = localStorage.getItem('language') as string;
   }
 
   user(): User{
@@ -37,6 +41,11 @@ export class HomePage implements OnInit {
       this.getProducts();
       event.target.complete();
     }, 1000);
+  }
+
+  //============ Cambiar idioma
+  setLanguage(){
+    this.languageSvc.setLanguage(this.selectedLanguage)
   }
 
   //============ Cerrar sesion

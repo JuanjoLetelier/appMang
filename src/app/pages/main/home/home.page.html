@@ -6,17 +6,39 @@
   <ion-refresher-content></ion-refresher-content>
 </ion-refresher>
 
-<ion-card mode="ios", color="secondary", class="d-flex-center ion-text-center" *ngIf="!loading && products.length">
-  <div>
-    <h5>{{products.length}}</h5>
-    <p>Mangas</p>
-  </div>
+<ion-toolbar>
+  <ion-title>Mangas</ion-title>
+    
+  <ion-item mode="ios" lines="none" slot="end" class="item_lang">
+    <ion-select
+    [(ngModel)]="selectedLanguage"
+    (ionChange)="setLanguage()"
+    toggleIcon="globe"
+    interface="popover"
+    >
+      <ion-select-option value="esp">{{'LANG.spanish' | translate}}</ion-select-option>
+      <ion-select-option value="eng">{{'LANG.english' | translate}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+</ion-toolbar>
 
-  <div>
-    <h5>{{products.length}}</h5>
-    <p>Vistas Totales</p>
-  </div>
-</ion-card>
+<ion-grid >
+  <ion-row>
+    <ion-col size="12" class="d-flex-center">
+
+      <ion-item lines="none" class="custom-inputs">
+        <ion-icon slot="start" name="search" color="primary"></ion-icon>
+        <ion-input 
+        type="text"
+        labelPlacement="floating"
+        [label]="'HOME.search_episode_by_number' | translate"
+        ></ion-input>
+      </ion-item>
+
+    </ion-col>
+    <ion-col size="6"></ion-col>
+  </ion-row>
+</ion-grid>
 
 <!--============ Productos ============-->
   <ion-list *ngIf="!loading">
@@ -71,7 +93,7 @@
 
 <!--======= Agregar Nuevo Manga =======-->
 <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-  <ion-fab-button (click)="addUpdateProduct()">
+  <ion-fab-button size = small (click)="addUpdateProduct()">
     <ion-icon name="add"></ion-icon>
   </ion-fab-button>
   
