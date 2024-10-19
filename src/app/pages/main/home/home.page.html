@@ -7,8 +7,28 @@
 </ion-refresher>
 
 <ion-toolbar>
-  <ion-title>Mangas</ion-title>
-    
+  <ion-title>Zona Horaria</ion-title>
+  <ion-content>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Información de Zona Horaria</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <p *ngIf="timezoneData"><strong>Zona Horaria:</strong> {{ timezoneData.zoneName }}</p>
+              <p *ngIf="timezoneData"><strong>GMT Offset:</strong> {{ timezoneData.gmtOffset }}</p>
+              <p *ngIf="currentTime"><strong>Hora Actual:</strong> {{ currentTime }}</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+</ion-toolbar>
+
+<ion-toolbar>    
   <ion-item mode="ios" lines="none" slot="end" class="item_lang">
     <ion-select
     [(ngModel)]="selectedLanguage"
@@ -25,15 +45,30 @@
 <ion-grid >
   <ion-row>
     <ion-col size="12" class="d-flex-center">
-
-      <ion-item lines="none" class="custom-inputs">
+      
+      <div class="filters">
+        <ion-item lines="none" class="custom-inputs">
         <ion-icon slot="start" name="search" color="primary"></ion-icon>
         <ion-input 
         type="text"
         labelPlacement="floating"
         [label]="'HOME.search_episode_by_number' | translate"
-        ></ion-input>
+        >
+      </ion-input>
       </ion-item>
+
+      <ion-item>
+        <ion-icon slot="start" src="assets/icon/logoEscudo.png"></ion-icon>
+        <ion-select 
+        labelPlacement="stacked"
+        [label]="'HOME.season' | translate"
+        >
+          <ion-select-option value="primera">Primera</ion-select-option>
+          <ion-select-option value="segunda">Segunda</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+      
 
     </ion-col>
     <ion-col size="6"></ion-col>

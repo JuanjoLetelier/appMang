@@ -12,7 +12,9 @@ export const environment = {
     storageBucket: "isekaiapp.appspot.com",
     messagingSenderId: "515031612956",
     appId: "1:515031612956:web:1e481264b943b8c82da9d9"
-  }
+  },
+
+  baseUrl: 'https://maps.googleapis.com/maps/api/timezone/outputFormat?parameters'
 };
 
 /*

@@ -7,6 +7,9 @@ import { AddUpdateProductComponent } from 'src/app/shared/components/add-update-
 import { orderBy } from 'firebase/firestore';
 import { LanguageService } from 'src/app/services/language.service';
 
+import { TimezoneService } from 'src/app/services/timezone.service';
+
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -20,12 +23,56 @@ export class HomePage implements OnInit {
   languageSvc = inject(LanguageService);
   selectedLanguage = '';
 
+  timezoneData: any;
+  currentTime: string = ''
+
 
   products: Product[] = [];
   loading: boolean = false;
+
+  intervalId: any;
   
-  ngOnInit() {
+  async ngOnInit() {
+
+    // ===== Obtener Lenguaje =====
     this.selectedLanguage = localStorage.getItem('language') as string;
+
+
+    // ===== Coordenadas zona horaria =====
+
+    const lat = -33.4489; // Latitud de ejemplo
+    const lng = -70.6693; // Longitud de ejemplo
+    const timestamp = Math.floor(Date.now() / 1000); // Timestamp actual en segundos
+
+    try {
+      this.timezoneData = await this.timezoneService.getTimeZone(lat, lng, timestamp);
+      console.log('Datos de la zona horaria:', this.timezoneData);
+      if (this.timezoneData){
+        this.updateCurrentTime();
+      }      
+    } catch (error) {
+      console.error('Error al obtener los datos de la zona horaria:', error);
+    }
+
+    this.intervalId = setInterval(() => {
+      this.updateCurrentTime();
+    }, 1000);
+  }
+
+  ngOnDestroy() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+  }
+
+  updateCurrentTime() {
+    if(this.timezoneData){
+      const offset = this.timezoneData.gmtOffset;
+      const currentDate = new Date((Date.now() / 1000 + offset) * 1000);
+      this.currentTime = currentDate.toLocaleTimeString();
+    }
+    
+  
   }
 
   user(): User{
@@ -152,5 +199,9 @@ this.utilsSvc.presentAlert({
         loading.dismiss();
       });
 }
+
+// ===== Time Zone =====
+
+  constructor(private timezoneService: TimezoneService) {}
 
 }
