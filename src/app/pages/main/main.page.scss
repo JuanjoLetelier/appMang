@@ -1,12 +1,12 @@
 ion-content {
-    --background: var(--ion-color-primary);
-    --color: var(--ion-color-primary-contrast);
+    --background: var(--ion-color-dark);
+    --color: var(--ion-color-dark-contrast);
     --offset-top: 20px;
 }
 
 ion-item{
     font-size: 14px;
-    --background: var(--ion-color-primary);
+    --background: var(--ion-color-dark);
     color: var(--ion-color-light);
 
     ion-icon{
@@ -14,10 +14,10 @@ ion-item{
     }
 
     &.active{
-        color: var(--ion-color-warning);
+        color: var(--ion-color-primary);
         
         ion-icon{
-            color: var(--ion-color-warning);
+            color: var(--ion-color-primary);
         }
     }
 

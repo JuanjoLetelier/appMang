@@ -5,9 +5,7 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import { AddUpdateProductComponent } from 'src/app/shared/components/add-update-product/add-update-product.component';
 import { orderBy } from 'firebase/firestore';
-import { LanguageService } from 'src/app/services/language.service';
 
-import { TimezoneService } from 'src/app/services/timezone.service';
 
 
 @Component({
@@ -20,7 +18,7 @@ export class HomePage implements OnInit {
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService);
 
-  languageSvc = inject(LanguageService);
+ 
   selectedLanguage = '';
 
   timezoneData: any;
@@ -35,45 +33,36 @@ export class HomePage implements OnInit {
   async ngOnInit() {
 
     // ===== Obtener Lenguaje =====
-    this.selectedLanguage = localStorage.getItem('language') as string;
+    // this.selectedLanguage = localStorage.getItem('language') as string;
 
 
-    // ===== Coordenadas zona horaria =====
+    // // ===== Coordenadas zona horaria =====
 
-    const lat = -33.4489; // Latitud de ejemplo
-    const lng = -70.6693; // Longitud de ejemplo
-    const timestamp = Math.floor(Date.now() / 1000); // Timestamp actual en segundos
+    // const lat = -33.4489; // Latitud de ejemplo
+    // const lng = -70.6693; // Longitud de ejemplo
+    // const timestamp = Math.floor(Date.now() / 1000); // Timestamp actual en segundos
 
-    try {
-      this.timezoneData = await this.timezoneService.getTimeZone(lat, lng, timestamp);
-      console.log('Datos de la zona horaria:', this.timezoneData);
-      if (this.timezoneData){
-        this.updateCurrentTime();
-      }      
-    } catch (error) {
-      console.error('Error al obtener los datos de la zona horaria:', error);
-    }
 
-    this.intervalId = setInterval(() => {
-      this.updateCurrentTime();
-    }, 1000);
+    // this.intervalId = setInterval(() => {
+    //   this.updateCurrentTime();
+    // }, 1000);
   }
 
-  ngOnDestroy() {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-    }
-  }
+  // ngOnDestroy() {
+  //   if (this.intervalId) {
+  //     clearInterval(this.intervalId);
+  //   }
+  // }
 
-  updateCurrentTime() {
-    if(this.timezoneData){
-      const offset = this.timezoneData.gmtOffset;
-      const currentDate = new Date((Date.now() / 1000 + offset) * 1000);
-      this.currentTime = currentDate.toLocaleTimeString();
-    }
+  // updateCurrentTime() {
+  //   if(this.timezoneData){
+  //     const offset = this.timezoneData.gmtOffset;
+  //     const currentDate = new Date((Date.now() / 1000 + offset) * 1000);
+  //     this.currentTime = currentDate.toLocaleTimeString();
+  //   }
     
   
-  }
+  // }
 
   user(): User{
     return this.utilsSvc.getFromLocalStorage('user');
@@ -88,11 +77,6 @@ export class HomePage implements OnInit {
       this.getProducts();
       event.target.complete();
     }, 1000);
-  }
-
-  //============ Cambiar idioma
-  setLanguage(){
-    this.languageSvc.setLanguage(this.selectedLanguage)
   }
 
   //============ Cerrar sesion
@@ -198,10 +182,4 @@ this.utilsSvc.presentAlert({
       .finally(() => {
         loading.dismiss();
       });
-}
-
-// ===== Time Zone =====
-
-  constructor(private timezoneService: TimezoneService) {}
-
-}
+    }}
