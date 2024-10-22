@@ -16,10 +16,12 @@ export class MainPage implements OnInit {
     {title: 'Perfil', url: '/main/profile', icon: 'person-outline'},
   ]
 
-  router = inject(Router);
+  
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService);
   currentPath: string= '';
+
+  constructor(private router: Router){}
 
   ngOnInit() {
     this.router.events.subscribe((event: any) => {
@@ -36,4 +38,8 @@ export class MainPage implements OnInit {
     this.firebaseSvc.signOut();
   }
 
+  // goBack(){
+  // this.utilsSvc.routerLink('/auth');
+  // }
+  
 }
