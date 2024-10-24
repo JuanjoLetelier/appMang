@@ -53,9 +53,9 @@ export class FirebaseService {
 
   //============ Cerrar sesion
 
-  signOut(){
+signOut(){
     getAuth().signOut();
-    localStorage.removeItem('user');
+    localStorage.removeItem('user')
     this.utilsSvc.routerLink('/auth');
   }
 

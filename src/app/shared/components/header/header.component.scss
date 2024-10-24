@@ -1,3 +1,38 @@
 .admin{
-    font-size: 13px
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
 }
+.right-aligned {
+    text-align: right;
+  }
+  ion-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+ 
+  .right-aligned {
+    text-align: right;
+    margin-left: auto;
+  }
+  
+  .admin img {
+    margin-left: 8px;
+    align-self: center;
+  }
+  
+  .admin p {
+    margin: 0;
+    font-size: 0.9em;
+    line-height: 1.2em;
+  }
+  ion-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+  }
+  

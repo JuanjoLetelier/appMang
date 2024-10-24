@@ -16,12 +16,21 @@
     </ion-buttons>
 
     <ion-title>
-      
-      <strong >{{title}}</strong>
-      <div class="admin">        
-       I S E K A I <img src="assets/icon/logoEscudoAzul.png" alt="" width="14" >        
+      <div class="admin">
+                
+       I S E K A I <img src="assets/icon/logoEscudoAzul.png" alt="logo" width="14" > 
+       
+       <ion-card-content class="right-aligned" *ngIf="timezoneData" >
+        <!-- <p><strong>Zona Horaria:</strong> {{ timezoneData.timeZoneName }}</p>
+        <p><strong>UTC Offset:</strong> {{ timezoneData.rawOffset }}</p>
+        <p><strong>Daylight Savings:</strong> {{ timezoneData.dstOffset }}</p> -->
+        <p><strong>{{ localDate }}</strong></p>
+        <p><strong>{{localTime }}</strong> </p>  
+      </ion-card-content>
 
       </div>
+
+      
     </ion-title>
   </ion-toolbar>
 

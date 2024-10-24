@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ApplicationConfig, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -29,18 +29,20 @@ import { environment } from 'src/environments/environment.prod';
       IonicModule.forRoot({mode: 'md'}),
       AppRoutingModule,
       AngularFireModule.initializeApp(environment.firebaseConfig),
-      TranslateModule.forRoot({
-        loader:{
-          provide: TranslateLoader,
-          useFactory: (createTranslateLoader),
-          deps: [HttpClient]
-        }
-      }),
       HttpClientModule
     ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
-  bootstrap: [AppComponent],
+  providers: [{ provide: RouteReuseStrategy,
+                useClass: IonicRouteStrategy,
+              
+               }],
+  bootstrap: [AppComponent ],
 })
 export class AppModule {}
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+              
+  ]
+}
 
 

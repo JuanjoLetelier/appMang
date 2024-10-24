@@ -1,10 +1,12 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product.model';
 import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import { AddUpdateProductComponent } from 'src/app/shared/components/add-update-product/add-update-product.component';
 import { orderBy } from 'firebase/firestore';
+import { ApiService } from 'src/app/services/api.service';
+import { TimezoneService } from 'src/app/services/timezone.service';
 
 
 
@@ -23,14 +25,61 @@ export class HomePage implements OnInit {
 
   timezoneData: any;
   currentTime: string = ''
+  localTime: string = ''
+  localDate: string = ''
 
 
   products: Product[] = [];
   loading: boolean = false;
 
   intervalId: any;
+  data: any;
+
+  constructor (private timezoneService: TimezoneService, private cdr: ChangeDetectorRef) {}
   
   async ngOnInit() {
+
+
+
+    try {
+      const latitude = -33.0472;
+      const longitude = -71.6127;
+      const timestamp = Math.floor(new Date().getTime() / 1000);
+      this.timezoneData = await this.timezoneService.getTimezone(latitude, longitude, timestamp);
+      console.log('Datos de la zona horaria en el componente:', this.timezoneData);
+      this.calculateLocalTime();
+      this.intervalId = setInterval(() =>{
+        this.calculateLocalTime();
+        this.cdr.detectChanges();
+      }, 1000);
+      
+    } catch (error) {
+      console.error('Error al cargar datos de la zona horaria:', error);
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+  }
+
+  calculateLocalTime() {
+    if (this.timezoneData) {
+      // Obtener la hora actual en UTC en milisegundos
+      const currentUtcTime = new Date().getTime();
+
+      // Crear un objeto Date con la hora local usando el timeZoneId
+      const localDate = new Date(currentUtcTime);
+      this.localTime = localDate.toLocaleTimeString('es-CL', { timeZone: this.timezoneData.timeZoneId, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      this.localDate = localDate.toLocaleDateString('es-CL', { timeZone: this.timezoneData.timeZoneId, weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    }
+  }
+  
+  
+  
+
+
 
     // ===== Obtener Lenguaje =====
     // this.selectedLanguage = localStorage.getItem('language') as string;
@@ -46,7 +95,6 @@ export class HomePage implements OnInit {
     // this.intervalId = setInterval(() => {
     //   this.updateCurrentTime();
     // }, 1000);
-  }
 
   // ngOnDestroy() {
   //   if (this.intervalId) {

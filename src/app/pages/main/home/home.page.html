@@ -1,4 +1,5 @@
-<app-header [showMenu]="true" title="Inicio"></app-header>
+<app-header [showMenu]="true" title="Inicio">
+</app-header>
 
 <ion-content>
 
@@ -6,6 +7,14 @@
   <ion-refresher-content></ion-refresher-content>
 </ion-refresher>
 
+<!-- <ion-card-content *ngIf="timezoneData">
+  <p><strong>Zona Horaria:</strong> {{ timezoneData.timeZoneName }}</p>
+  <p><strong>UTC Offset:</strong> {{ timezoneData.rawOffset }}</p>
+  <p><strong>Daylight Savings:</strong> {{ timezoneData.dstOffset }}</p>
+  <p><strong>{{ localDate }}</strong></p>
+  <p><strong>{{localTime }}</strong> </p>  
+</ion-card-content>
+ -->
 
 <!--============ Productos ============-->
   <ion-list *ngIf="!loading">
@@ -65,4 +74,9 @@
   </ion-fab-button>
   
 </ion-fab>
+
+
+
 </ion-content>
+
+  
