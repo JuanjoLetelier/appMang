@@ -26,7 +26,8 @@ import { environment } from 'src/environments/environment.prod';
   declarations: [AppComponent],
   imports: [
       BrowserModule,
-      IonicModule.forRoot({mode: 'md'}),
+      IonicModule.forRoot({ rippleEffect: false,
+                            mode: 'md'}),
       AppRoutingModule,
       AngularFireModule.initializeApp(environment.firebaseConfig),
       HttpClientModule
@@ -35,7 +36,8 @@ import { environment } from 'src/environments/environment.prod';
                 useClass: IonicRouteStrategy,
               
                }],
-  bootstrap: [AppComponent ],
+  
+               bootstrap: [AppComponent ],
 })
 export class AppModule {}
 
